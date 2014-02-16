@@ -1328,7 +1328,11 @@ static void connect_server(void)
     /* I'm resolving... don't start another server connect request */
     resolvserv = 1;
     /* Resolve the hostname. */
+#ifdef IPV6
+    server_resolve_success(servidx);
+#else
     dcc_dnsipbyhost(dcc[servidx].host);
+#endif
   }
 }
 
@@ -1350,7 +1354,11 @@ static void server_resolve_success(int servidx)
   dcc[servidx].addr = dcc[servidx].u.dns->ip;
   strcpy(pass, dcc[servidx].u.dns->cbuf);
   changeover_dcc(servidx, &SERVER_SOCKET, 0);
+#ifdef IPV6
+  serv = open_telnet(dcc[servidx].host, dcc[servidx].port);
+#else
   serv = open_telnet(iptostr(htonl(dcc[servidx].addr)), dcc[servidx].port);
+#endif
   if (serv < 0) {
     neterror(s);
     putlog(LOG_SERV, "*", "%s %s (%s)", IRC_FAILEDCONNECT, dcc[servidx].host,

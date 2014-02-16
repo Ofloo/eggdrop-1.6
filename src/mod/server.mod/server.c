@@ -1538,7 +1538,11 @@ static void dcc_chat_hostresolved(int i)
     return;
   }
   egg_snprintf(ip, sizeof ip, "%lu", iptolong(htonl(dcc[i].addr)));
+#ifdef IPV6
+  dcc[i].sock = getsock(0,getprotocol(ip));
+#else
   dcc[i].sock = getsock(0);
+#ifdef
   if (dcc[i].sock < 0 || open_telnet_dcc(dcc[i].sock, ip, buf) < 0) {
     neterror(buf);
     if (!quiet_reject)

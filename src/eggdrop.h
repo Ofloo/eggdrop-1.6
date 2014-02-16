@@ -679,6 +679,9 @@ struct sock_handler {
   char *outbuf;
   unsigned long outbuflen;      /* Outbuf could be binary data  */
   unsigned long inbuflen;       /* Inbuf could be binary data   */
+#ifdef IPV6
+  unsigned int af;
+#endif
 };
 
 struct tclsock_handler {

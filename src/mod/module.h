@@ -203,7 +203,11 @@
 /* 80 - 83 */
 #define new_dcc ((int (*) (struct dcc_table *, int))global[80])
 #define lostdcc ((void (*) (int))global[81])
+#ifdef IPV6
+#define getsock ((int (*) (int,int))global[82])
+#else
 #define getsock ((int (*) (int))global[82])
+#endif
 #define killsock ((void (*) (int))global[83])
 /* 84 - 87 */
 #define open_listen ((int (*) (int *))global[84])
@@ -473,7 +477,11 @@
 /* 284 - 287 */
 #define quiet_reject (*(int *)(global[284]))
 #define file_readable ((int (*) (char *))global[285])
+#ifdef IPV6
+#define getprotocol ((int (*)(char *))global[286]) /* get protocol */
+#else 
 /* IPv6 leftovers: 286 */
+#endif
 /* IPv6 leftovers: 287 */
 /* 288 - 291 */
 /* IPv6 leftovers: 288 */

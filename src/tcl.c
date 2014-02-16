@@ -46,7 +46,11 @@ typedef struct {
 extern time_t online_since;
 
 extern char origbotname[], botuser[], motdfile[], admin[], userfile[],
+#ifdef IPV6
+            firewall[], helpdir[], notify_new[], hostname[], hostname6[], myip[], myip6[], moddir[],
+#else
             firewall[], helpdir[], notify_new[], hostname[], myip[], moddir[],
+#endif
             tempdir[], owner[], network[], botnetnick[], bannerfile[],
             egg_version[], natip[], configfile[], logfile_suffix[], log_ts[],
             textdir[], pid_file[];
@@ -494,6 +498,10 @@ static tcl_strings def_tcl_strings[] = {
   {"owner",           owner,          120,           STR_PROTECT},
   {"my-ip",           myip,           120,                     0},
   {"my-hostname",     hostname,       120,                     0},
+#ifdef IPV6
+  {"my-ip6",          myip6,          120,                     0},
+  {"my-hostname6",    hostname6,      120,                     0},
+#endif
   {"network",         network,        40,                      0},
   {"whois-fields",    whois_fields,   1024,                    0},
   {"nat-ip",          natip,          120,                     0},

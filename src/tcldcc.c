@@ -863,7 +863,11 @@ static int tcl_connect STDVAR
     Tcl_AppendResult(irp, "out of dcc table space", NULL);
     return TCL_ERROR;
   }
+#ifdef IPV6
+  sock = getsock(0,getprotocol(argv[1]));
+#else
   sock = getsock(0);
+#endif
 
   if (sock < 0) {
     Tcl_AppendResult(irp, MISC_NOFREESOCK, NULL);

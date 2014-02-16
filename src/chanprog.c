@@ -293,6 +293,9 @@ void tell_verbose_status(int idx)
   dprintf(idx, "I am %s, running %s: %d user%s (mem: %uk).\n",
           botnetnick, ver, i, i == 1 ? "" : "s",
           (int) (expected_memory() / 1024));
+#ifdef IPV6
+  dprintf(idx, "Unofficial IPv6 patch for v1.6.21 based on the v1.6.18 IPv6 patch \n");
+#endif  
 
   s[0] = 0;
   if (now2 > 86400) {

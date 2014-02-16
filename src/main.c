@@ -96,8 +96,13 @@ static char **argv;
  * modified versions of this bot.
  */
 
+#ifdef IPV6
+char egg_version[1024] = "1.6.21-ipv6";
+int egg_numver = 1062200;
+#else 
 char egg_version[1024] = "1.6.21";
 int egg_numver = 1062100;
+#endif
 
 char notify_new[121] = "";      /* Person to send a note to for new users */
 int default_flags = 0;          /* Default user flags                     */
@@ -247,7 +252,11 @@ static void write_debug()
      *       _not_ safe <cybah>
      */
     x = creat("DEBUG.DEBUG", 0644);
+#ifdef IPV6
+    setsock(x, SOCK_NONSOCK,AF_INET);
+#else
     setsock(x, SOCK_NONSOCK);
+#endif
     if (x >= 0) {
       strncpyz(s, ctime(&now), sizeof s);
       dprintf(-x, "Debug (%s) written %s\n", ver, s);
@@ -272,7 +281,11 @@ static void write_debug()
   putlog(LOG_MISC, "*", "* Please REPORT this BUG!");
   putlog(LOG_MISC, "*", "* Check doc/BUG-REPORT on how to do so.");
   x = creat("DEBUG", 0644);
+#ifdef IPV6
+  setsock(x, SOCK_NONSOCK,AF_INET);
+#else 
   setsock(x, SOCK_NONSOCK);
+#endif
   if (x < 0) {
     putlog(LOG_MISC, "*", "* Failed to write DEBUG");
   } else {
@@ -1151,7 +1164,11 @@ int main(int arg_c, char **arg_v)
       userlist = adduser(userlist, dcc[n].nick, "none", "-", USER_PARTY);
       dcc[n].user = get_user_by_handle(userlist, dcc[n].nick);
     }
+#ifdef IPV6
+    setsock(STDOUT, 0,AF_INET);          /* Entry in net table */
+#else
     setsock(STDOUT, 0);          /* Entry in net table */
+#endif
     dprintf(n, "\n### ENTERING DCC CHAT SIMULATION ###\n\n");
     dcc_chatter(n);
   }

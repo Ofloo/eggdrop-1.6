@@ -264,10 +264,18 @@ IP my_atoul(char *);
 unsigned long iptolong(IP);
 IP getmyip();
 void neterror(char *);
+#ifdef IPV6
+void setsock(int, int, int);
+int allocsock(int, int, int);
+int getsock(int, int);
+int getprotocol(char *);
+char *hostnamefromip(unsigned long);
+#else
 void setsock(int, int);
 int allocsock(int, int);
-int alloctclsock(int, int, Tcl_FileProc *, ClientData);
 int getsock(int);
+#endif
+int alloctclsock(int, int, Tcl_FileProc *, ClientData);
 void killsock(int);
 void killtclsock(int);
 int answer(int, char *, unsigned long *, unsigned short *, int);

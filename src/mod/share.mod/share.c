@@ -1137,7 +1137,11 @@ static void share_ufsend(int idx, char *par)
   } else {
     ip = newsplit(&par);
     port = newsplit(&par);
+#ifdef IPV6
+    sock = getsock(SOCK_BINARY,getprotocol(ip)); /* Don't buffer this -> mark binary. */
+#else
     sock = getsock(SOCK_BINARY); /* Don't buffer this -> mark binary. */
+#endif
     if (sock < 0 || open_telnet_dcc(sock, ip, port) < 0) {
       killsock(sock);
       putlog(LOG_BOTS, "*", "Asynchronous connection failed!");

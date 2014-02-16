@@ -99,6 +99,9 @@ extern time_t now, online_since;
 extern tand_t *tandbot;
 extern Tcl_Interp *interp;
 extern sock_list *socklist;
+#ifdef IPV6
+extern int getprotocol(char *);
+#endif
 
 int cmd_die();
 int xtra_kill();
@@ -561,7 +564,11 @@ Function global_table[] = {
   /* 284 - 287 */
   (Function) & quiet_reject,      /* int                                 */
   (Function) file_readable,
+#ifdef IPV6
+  (Function) getprotocol,         /* IPv6 leftovers: 286                 */
+#else
   (Function) 0,                   /* IPv6 leftovers: 286                 */
+#endif
   (Function) 0,                   /* IPv6 leftovers: 287                 */
   /* 288 - 291 */
   (Function) 0,                   /* IPv6 leftovers: 288                 */

@@ -268,7 +268,11 @@ void failed_link(int idx)
 
   /* Try next port */
   killsock(dcc[idx].sock);
+#ifdef IPV6
+  dcc[idx].sock = getsock(SOCK_STRONGCONN,getprotocol(dcc[idx].host));
+#else
   dcc[idx].sock = getsock(SOCK_STRONGCONN);
+#endif
   dcc[idx].port++;
   dcc[idx].timeval = now;
   if (dcc[idx].sock < 0 ||
@@ -1211,7 +1215,11 @@ static void dcc_telnet_hostresolved(int i)
   changeover_dcc(i, &DCC_IDENTWAIT, 0);
   dcc[i].timeval = now;
   dcc[i].u.ident_sock = dcc[idx].sock;
+#ifdef IPV6
+  sock = open_telnet(dcc[i].host, 113);
+#else
   sock = open_telnet(iptostr(htonl(dcc[i].addr)), 113);
+#endif
   putlog(LOG_MISC, "*", DCC_TELCONN, dcc[i].host, dcc[i].port);
   s[0] = 0;
   if (sock < 0) {
