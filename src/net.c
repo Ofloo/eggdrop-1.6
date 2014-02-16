@@ -725,7 +725,7 @@ int open_address_listen(IP addr, int *port)
     name.sin_addr.s_addr = addr;
     if (bind(sock, (struct sockaddr *) &name, sizeof(name)) < 0) {
       killsock(sock);
-#ifdef
+#ifdef IPV6
       goto tryv6;
 #else
       return -1;
