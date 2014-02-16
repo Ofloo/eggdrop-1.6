@@ -308,9 +308,7 @@ int allocsock(int sock, int options)
       td->socklist[i].handler.sock.outbuflen = 0;
       td->socklist[i].flags = options;
       td->socklist[i].sock = sock;
-#ifdef IPV6
       td->socklist[i].af = af_ty;
-#endif
       return i;
     }
   }
@@ -358,7 +356,7 @@ int alloctclsock(register int sock, int mask, Tcl_FileProc *proc, ClientData cd)
 
 /* Request a normal socket for i/o
  */
-#ifdef
+#ifdef IPV6
 void setsock(int sock, int options, int af_ty)
 #else
 void setsock(int sock, int options)
